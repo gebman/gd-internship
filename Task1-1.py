@@ -13,6 +13,6 @@ filename = sys.argv[1]
 dot_index = filename.rfind(".")
 extension = filename[dot_index+1:]
 if dot_index <=0 or extension=="":
-    raise Exception("not a valid filename")
+    raise Exception("this filename doesn't have an extension")
 
-print(f"File extension: {filename[dot_index+1:]}")
+sys.stdout.write(extension)
