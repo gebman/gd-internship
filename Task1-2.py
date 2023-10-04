@@ -18,8 +18,7 @@ def task(integer_list):
     answer["min"] = min(unique_list)
     return answer
 
-        
-    
+#example use of the function
 print(task([4,5,2,3,3,5,5,3,10,-23]))
 
    
