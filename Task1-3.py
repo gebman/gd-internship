@@ -18,7 +18,7 @@ try:
         lines = [x.split('" "')[-1][:-2] for x in file.readlines()]
         stats = Counter(lines)
 
-        # Comment out to list all of the sorted statictics
+        # Comment out to print all of the sorted statistics
         # for x in sorted(stats, key=stats.get,reverse=True):
         #     print(x, "count: ",stats[x])
 
