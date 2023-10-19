@@ -1,24 +1,11 @@
 # 2. Given a list of integers. Remove duplicates from the list and create a tuple.
 # Find the minimum and maximum number.
 
-
 def task(integer_list):
-    if type(integer_list) is not list:
-        raise TypeError("expected a list of integers")
-    unique_list = []
-    for x in integer_list:
-        if type(x) is not int:
-            raise TypeError("expected a list of integers")
-        if x not in unique_list:
-            unique_list.append(x)
+    int_tuple = tuple(set(integer_list))
+    print(int_tuple)
+    print(f"Maximum number: {max(int_tuple)}")
+    print(f"Minimum number: {min(int_tuple)}")
 
-    answer = dict()
-    answer["tuple"] = tuple(unique_list)
-    answer["max"] = max(unique_list)
-    answer["min"] = min(unique_list)
-    return answer
-
-#example use of the function
-print(task([4,5,2,3,3,5,5,3,10,-23]))
-
-   
+#Example usage
+task([2,4,3,3,3,9,20,-1,0,2,6,5,3])
