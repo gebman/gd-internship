@@ -5,9 +5,9 @@
 # -l for load average, -i for IP address).
 
 import argparse
-import sys
 import re
-import subprocess
+import os
+
 
 parser = argparse.ArgumentParser(description="Gathers various system information and prints it out. Only works on Linux distros.")
 
@@ -20,15 +20,14 @@ parser.add_argument("-u", "--user", action="store_true")
 
 args = vars(parser.parse_args())
 
-if True not in args.values():
-    print("Error: provide at least one argument")
-    sys.exit(1)
+if not any(args.values()):
+    parser.error("provide at least one argument")
 
 if args["distro"]:
     with open("/etc/os-release") as file:
         for line in file.readlines():
             if re.match('NAME="*"', line):
-                print("Distro name:",line[5:])
+                print(f"Distro name: {line[6:-2]}")
 
 if args["memory"]:
     with open("/proc/meminfo") as file:
@@ -40,7 +39,44 @@ if args["memory"]:
 
 
 if args["cpu"]:
-    print("WIP")
-    # lines = subprocess.run("lscpu", stdout=subprocess.PIPE)
-    # lines = [[y.strip() for y in x.split(":")] for x in lines.stdout.decode().split("\n")]
-    # print(lines) 
+    with open("/proc/cpuinfo") as file:
+        cpu_list = []
+        for cpu_raw in file.read().split("\n\n"):
+            if cpu_raw == '':
+                continue
+            cpu = dict()
+            for line in cpu_raw.split("\n"):
+                record = [x.strip() for x in line.split(":")]
+                cpu[record[0]] = record[1]
+            cpu_list.append(cpu)
+
+        cpu_names = []
+        for i in range(len(cpu_list)):
+            if cpu_list[i]["model name"] not in [x[0] for x in cpu_names]:
+                cpu_names.append([cpu_list[i]["model name"],int(cpu_list[i]['cpu cores']),int(cpu_list[i]['siblings']),cpu_list[i]['cpu MHz']])
+            else:
+                for j in range(len(cpu_names)):
+                    if cpu_names[j][0] == cpu_list[i]["model name"]:
+                        cpu_names[j][1] += int(cpu_list[i]["cpu cores"])
+                        cpu_names[j][2] += int(cpu_list[i]["siblings"])
+                    
+        for x,y in enumerate(cpu_names):
+            print(f"CPU {x}:")
+            print(f"\tProcessor name: {y[0]}")
+            print(f"\tCores: {y[1]}")
+            print(f"\tThreads: {y[2]}")
+            print(f"\tSpeed: {round(float(y[3]))}MHz")
+
+if args["user"]:
+    print(f"Username: {os.environ.get('USER')}")
+
+if args["load"]:
+    with open("/proc/loadavg") as file:
+        values = file.read().split()
+        print("CPU utilization avg in: ")
+        print(f"Last 1 min: {float(values[0])*100}%")
+        print(f"Last 5 min: {float(values[1])*100}%")
+        print(f"Last 10 min: {float(values[2])*100}%")
+if args["ip"]:
+    #WIP
+    pass
