@@ -98,7 +98,7 @@ def load():
 
 def ip():
     """
-    Print out the IP addresses and network info using "ip addr" or "ifconfig". Currently WIP
+    Print out the IP addresses and network info using "ip addr" or "ifconfig".
     """
     try:
         raw = subprocess.run(["ip", "address"], check=True, text=True, capture_output=True)
