@@ -35,7 +35,7 @@ while getopts "i:o:vs:rlu" args; do
         fi;;
     esac
 done
-rm -f $outfile
+: > $outfile
 touch $outfile
 while read -r line; do
 

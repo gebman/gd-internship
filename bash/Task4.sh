@@ -12,7 +12,7 @@ while getopts "s:i:o:" args; do
     esac
 done
 
-rm -f $outfile
+: > $outfile
 touch $outfile
 while read -r line; do
     for i in `seq 0 $(( ${#line} - 1 ))`; do
