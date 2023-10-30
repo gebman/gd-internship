@@ -12,13 +12,13 @@ while getopts "s:i:o:" args; do
     esac
 done
 
-: > $outfile
-touch $outfile
+cat /dev/null > "$outfile"
+touch "$outfile"
 while read -r line; do
     for i in `seq 0 $(( ${#line} - 1 ))`; do
         char=${line:$i:1}
         if [[ $char == ' ' ]]; then
-            printf ' ' >> $outfile
+            printf ' ' >> "$outfile"
         else
             normal_ascii=$(printf "%d" "'$char")
             shifted_ascii=$(( $normal_ascii + $shift ))
@@ -29,9 +29,9 @@ while read -r line; do
                 offset=$(( $(( $shifted_ascii - 65 )) % 26 ))
                 shifted_ascii=$(( 65 + $offset ))
             fi
-            printf "\x$(printf %x $shifted_ascii)" >> $outfile
+            printf "\x$(printf %x $shifted_ascii)" >> "$outfile"
         fi
     done
-    printf "\n" >> $outfile
-done <$infile
+    printf "\n" >> "$outfile"
+done <"$infile"
 
