@@ -35,8 +35,8 @@ while getopts "i:o:vs:rlu" args; do
         fi;;
     esac
 done
-: > $outfile
-touch $outfile
+cat /dev/null > "$outfile"
+touch "$outfile"
 while read -r line; do
 
     if [[ -n $s_flag ]]; then
@@ -54,6 +54,6 @@ while read -r line; do
     if [[ -n $r_flag ]]; then
         line=`echo $line | rev`
     fi
-    echo $line >> $outfile
+    echo $line >> "$outfile"
 
-done <$infile
+done <"$infile"
