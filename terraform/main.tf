@@ -25,11 +25,11 @@ module "network" {
   subnet_list = {
     tf_task_mlabeckiSUBNET1 = {
       ip = "10.0.1.0/24"
-      az = "us-east-1a"
+      az = "${var.region}a"
     }
     tf_task_mlabeckiSUBNET2 = {
       ip = "10.0.2.0/24"
-      az = "us-east-1b"
+      az = "${var.region}b"
     }
   }
 }
