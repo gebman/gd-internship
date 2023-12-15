@@ -7,6 +7,14 @@ provider "aws" {
     }
   }
 }
+# uncomment this in order to configure a remote S3 backend
+# terraform {
+#   backend "s3" {
+#     bucket = "tf-state-task-mlabecki"
+#     key = "state/terraform.tfstate"
+#     region = "eu-central-1"
+#   }
+# }
 data "aws_ami" "al2023" {
   most_recent = true
   filter {
