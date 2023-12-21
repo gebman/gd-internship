@@ -2,3 +2,4 @@ terraform/terraform*
 terraform/.terraform/*
 terraform/.terraform*
 *.DS_store*
+.vscode
