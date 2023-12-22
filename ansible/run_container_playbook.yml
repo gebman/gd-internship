@@ -1,8 +1,8 @@
 ---
 - name: Configure and run a docker container
   vars:
-    - ansible_ssh_private_key_file: ~/.ssh/mlabecki_key.pem
-    - image_name: mlabecki/spring-petclinic:26
+    ansible_ssh_private_key_file: ~/.ssh/mlabecki_key.pem
+    image_name: mlabecki/spring-petclinic:26
   hosts: all
   remote_user: ec2-user
   become: true
