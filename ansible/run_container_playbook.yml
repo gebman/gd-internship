@@ -1,0 +1,32 @@
+---
+- name: Configure and run a docker container
+  vars:
+    - ansible_ssh_private_key_file: ~/.ssh/mlabecki_key.pem
+    - image_name: mlabecki/spring-petclinic:26
+  hosts: all
+  remote_user: ec2-user
+  become: true
+  tasks:
+    - name: Update system
+      ansible.builtin.yum:
+        name: "*"
+        state: "latest"
+    - name: Install docker
+      ansible.builtin.yum:
+        name: "docker"
+        state: "latest"
+    - name: Start and enable docker
+      ansible.builtin.service:
+        name: docker
+        state: "started"
+        enabled: true
+    - name: Pull docker image
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        source: pull
+    - name: Run container
+      community.docker.docker_container:
+        name: spring_petclinic
+        image: "{{ image_name }}"
+        ports:
+          - "80:8080"
